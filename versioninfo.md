@@ -8,7 +8,7 @@ The 1.x branch is for Laravel 4.2, 2.x branch is for Laravel 5.1
 - fix discrepancy between changed status in dashboard view and show changed radio button translation results
 - add unpublished radio button to show translations that need attention or will be modified on next publish. These are: deleted, changed or missing.
 - add text box for regex to show translations whose keys match regex in the text box. Applied on top of other radio button filtering.
-- add key stats displayed in the translations table key column. Shows total displayed, vs total from radio buttons, vs total keys.
+- add filtered key stats display in the translations table key column. Shows total displayed after regex filtering vs total from radio buttons vs total keys.
 - add `show_locales` config option to limit the locales to ones contained in the option. If empty or not provided then all locales from the database will be shown. Only affects locales shown. All locales are imported and exported regardless of this setting.
 
 #### 1.0.30 - 2.0.30
@@ -24,12 +24,12 @@ The 1.x branch is for Laravel 4.2, 2.x branch is for Laravel 5.1
             └── subtest.php
     ```
 
-    You would access translations:      
-    
+    You would access translations:
+
     - in L5 as `@lang('test/subtest.translation-key')` for `subtest.php` and as `@lang('test/sub-dir/sub-sub-test.translation-key')` for `sub-sub-test.php`.
-    
+
     - in L4 as `@lang('test.subtest.translation-key')` for `subtest.php` and as `@lang('test.sub-dir.sub-sub-test.translation-key')` for `sub-sub-test.php`.
-    
+
     In both cases the group in translation manager will show as `test.subtest` and `test.sub-dir.sub-sub-test`. It was too big a pain to support `/` in group names because these are passed in the URL as parameters and having slashes messes things up. URL encoding is no help because Laravel cannot resolve the path.
 
 #### 1.0.29 - 2.0.29
@@ -38,8 +38,8 @@ The 1.x branch is for Laravel 4.2, 2.x branch is for Laravel 5.1
 - fix moved csrf meta from index.blade.php to layouts.master.blade.php so that all pages that extend layouts.master can use in-place-edit mode.
 - move most of the details from the readme to the wiki.
 - fix runtime exception if workbench projects are present but the config has an empty include for workbench config.
-- fix replace deprecated \Route::after() 
-- add key usage logging. Similar to missing keys except it logs keys that were accessed. 
+- fix replace deprecated \Route::after()
+- add key usage logging. Similar to missing keys except it logs keys that were accessed.
 - add alternate database connection to config and to web interface. Can manage production translations from local dev environment.
 - fix keyOps to handle group names for wbn: and vnd: prefixed names. Now can move/copy keys from normal groups to these ones.
 - fix translations page now redirects to 'no group selected' url if the requested group no longer exists.
