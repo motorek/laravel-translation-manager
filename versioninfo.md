@@ -1,8 +1,17 @@
 ### Version Notes
 
-The 1.x branch is for Laravel 4.2, 2.x branch is for Laravel 5.1
+The 1.x.x versions are for Laravel 4.2, 2.x.x versions are for Laravel 5.1
 
-#### 1.0.31 - 2.0.31
+#### x.0.32
+
+- fix move keys would fail if destination had existing key. Now conflicting destination keys are deleted and replaced by the moved keys.
+- fix translation edit pop-up to caps now lower cases the affected text then proper caps it.
+- add translation edit pop-up button to cap just the first character of the translation and the rest lowercase.
+- change auto-translations now only set first cap and the rest lowercase, regardless of english case.
+- add auto-prop case for visisble translations
+- add mark visible translations as deleted, and unmark visible translations as deleted
+
+#### x.0.31
 
 - fix error reporting for wild card key operations would show empty alert
 - fix discrepancy between changed status in dashboard view and show changed radio button translation results
@@ -32,7 +41,7 @@ The 1.x branch is for Laravel 4.2, 2.x branch is for Laravel 5.1
 
     In both cases the group in translation manager will show as `test.subtest` and `test.sub-dir.sub-sub-test`. It was too big a pain to support `/` in group names because these are passed in the URL as parameters and having slashes messes things up. URL encoding is no help because Laravel cannot resolve the path.
 
-#### 1.0.29 - 2.0.29
+#### x.0.29
 
 - fix formSubmit() was not properly processing translation result for inPlaceEdit() mode
 - fix moved csrf meta from index.blade.php to layouts.master.blade.php so that all pages that extend layouts.master can use in-place-edit mode.

@@ -81,7 +81,7 @@ class ManagerServiceProvider extends ServiceProvider
             $before = Config::get(self::PACKAGE . '::config.web_route_before');
             $controller = 'Vsch\TranslationManager\Controller';
 
-            include __DIR__.'/../../routes.php';
+            include __DIR__ . '/routes.php';
         }
     }
 
