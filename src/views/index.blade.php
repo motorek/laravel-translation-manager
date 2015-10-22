@@ -14,40 +14,40 @@
                     <div class="col-sm-12">
                         <p>@lang($package . '::messages.export-warning-text')</p>
 
-                        <?= ifInPlaceEdit("@lang($package . '::messages.import-all-done')") ?>
                         <div class="alert alert-danger alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <div class="errors-alert">
                             </div>
                         </div>
+                        <?= ifInPlaceEdit("@lang('$package::messages.import-all-done')") ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <div class="success-import-all">
                             <p>@lang($package . '::messages.import-all-done')</p>
                             </div>
                         </div>
-                        <?= ifInPlaceEdit("@lang($package . '::messages.import-group-done')", ['group' => $group]) ?>
+                        <?= ifInPlaceEdit("@lang('$package::messages.import-group-done')", ['group' => $group]) ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <div class="success-import-group">
                                 <p>@lang($package . '::messages.import-group-done', ['group' => $group]) </p>
                             </div>
                         </div>
-                        <?= ifInPlaceEdit("@lang($package . '::messages.search-done')") ?>
+                        <?= ifInPlaceEdit("@lang('$package::messages.search-done')") ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <div class="success-find">
                                 <p>@lang($package . '::messages.search-done')</p>
                             </div>
                         </div>
-                        <?= ifInPlaceEdit("@lang($package . '::messages.done-publishing')", ['group' => $group]) ?>
+                        <?= ifInPlaceEdit("@lang('$package::messages.done-publishing')", ['group' => $group]) ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <div class="success-publish">
                                 <p>@lang($package . '::messages.done-publishing', ['group'=> $group])</p>
                             </div>
                         </div>
-                        <?= ifInPlaceEdit("@lang($package . '::messages.done-publishing-all')") ?>
+                        <?= ifInPlaceEdit("@lang('$package::messages.done-publishing-all')") ?>
                         <div class="alert alert-success alert-dismissible" style="display:none;">
                             <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <div class="success-publish-all">
@@ -643,7 +643,10 @@
                     </div>
                     <div class="input-group input-group-sm">
                         <label class="radio-inline">
-                            <input id="show-all" type="radio" name="show-options" value="show-all" checked> @lang($package . '::messages.show-all')
+                            <input id="show-all" type="radio" name="show-options" value="show-all"> @lang($package . '::messages.show-all')
+                        </label>
+                        <label class="radio-inline">
+                            <input id="show-need-attention" type="radio" name="show-options" value="show-need-attention"> @lang($package . '::messages.show-need-attention')
                         </label>
                         <label class="radio-inline">
                             <input id="show-nonempty" type="radio" name="show-options" value="show-nonempty"> @lang($package . '::messages.show-nonempty')
@@ -843,7 +846,7 @@
                         <form id="search-form" method="GET" action="<?= action($controller . '@getSearch') ?>" data-remote="true">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input id="search-form-text" type="search" name="q" class="form-control form-control-feedback">
+                                    <input id="search-form-text" type="search" name="q" class="form-control">
                                     <span class="input-group-btn">
                                         <?= formSubmit(trans($package . '::messages.search'), ['class' => "btn btn-default"]) ?>
                                     </span>
@@ -865,18 +868,15 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header modal-primary">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"
-                                id="keyOpModalLabel">@lang($package . '::messages.keyop-header')</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="keyOpModalLabel">@lang($package . '::messages.keyop-header')</h4>
                     </div>
                     <div class="modal-body">
                         <div class="results"></div>
                     </div>
                     <div class="modal-footer">
                         <?= ifEditTrans($package . '::messages.close') ?>
-                        <button type="button" class="btn btn-sm btn-default"
-                                data-dismiss="modal"><?= noEditTrans($package . '::messages.close') ?></button>
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><?= noEditTrans($package . '::messages.close') ?></button>
                     </div>
                 </div>
             </div>
@@ -892,9 +892,15 @@
         var TRANSLATING_LOCALE = '{{$translatingLocale}}';
         var URL_TRANSLATOR_GROUP = '<?= action($controller . '@getView') ?>/';
         var URL_TRANSLATOR_ALL = '<?= action($controller . '@getIndex') ?>';
+        var URL_TRANSLATOR_FILTERS = '<?= action($controller . '@getTransFilters') ?>';
     </script>
 
     <!-- Moved out to allow auto-format in PhpStorm w/o screwing up HTML format -->
+    <script src="<?=  $public_prefix . $package ?>/js/xregexp-all.js"></script>
     <script src="<?=  $public_prefix . $package ?>/js/translations_page.js"></script>
+
+    <script>
+        var TRANS_FILTERS = ({ filter: "<?= $transFilters['filter'] ?>", regex: "<?= $transFilters['regex'] ?>" });
+    </script>
 @stop
 
